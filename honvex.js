@@ -23,7 +23,6 @@
     initContactPanel();
     initWire();
     initSlider();
-    initDots();
     initMobileBar();
     initTabs();
     initTilt();
