@@ -362,6 +362,68 @@ dialog.modal[open] { animation: pop .35s var(--ease); }
 @media (max-width: 1100px) { .dots { display: none; } }
 @media (min-width: 1101px) { .slider-nav .next { right: 60px; } }
 
+/* ---------- Big typographic greeting ---------- */
+.mega { padding: 90px 0 70px; background: #fff; text-align: center; }
+.mega-word { font-size: clamp(4.5rem, 20vw, 18rem); line-height: .95; font-weight: 900; letter-spacing: -.04em; color: var(--teal); overflow: hidden; padding-bottom: .08em; white-space: nowrap; }
+.mega-word span { display: inline-block; transform: translateY(105%); opacity: 0; transition: transform .9s var(--ease), opacity .6s; transition-delay: calc(var(--i) * 70ms); }
+.mega-word.in span { transform: none; opacity: 1; }
+.mega-word span:nth-child(odd) { color: var(--teal); }
+.mega-word span:nth-child(even) { color: var(--orange); }
+.mega-text { max-width: 620px; margin: 28px auto 26px; color: var(--muted); font-size: clamp(1rem, 1.6vw, 1.2rem); }
+.mega-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.btn-ghost-dark { background: #fff; color: var(--teal); border: 2px solid var(--teal); }
+.btn-ghost-dark:hover { background: var(--teal); color: #fff; }
+
+/* ---------- Statement: words fill in on scroll ---------- */
+.statement { padding: 80px 0 90px; background: #fff; }
+.statement-text { max-width: 1000px; font-size: clamp(1.7rem, 4.6vw, 3.6rem); line-height: 1.22; font-weight: 800; letter-spacing: -.01em; }
+.statement-text .w { color: #cfd6d8; transition: color .35s; }
+.statement-text .w.on { color: var(--teal); }
+.statement-text i { font-style: normal; display: inline-block; padding: 0 .08em; transform: scale(.6); opacity: .25; transition: transform .5s var(--ease), opacity .4s; }
+.statement-text i.on { transform: scale(1); opacity: 1; }
+
+/* ---------- Draggable product rail ---------- */
+.rail-sec { padding: 70px 0 80px; background: var(--cream); }
+.rail-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; margin-bottom: 32px; }
+.rail-ctrl { display: flex; gap: 10px; }
+.rail-ctrl button { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--teal); background: #fff; color: var(--teal); font-size: 1rem; cursor: pointer; transition: all .25s var(--ease); }
+.rail-ctrl button:hover { background: var(--teal); color: #fff; transform: scale(1.08); }
+.rail { display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x proximity; padding: 8px max(20px, calc((100vw - 1200px) / 2)) 24px; scrollbar-width: none; cursor: grab; -webkit-overflow-scrolling: touch; }
+.rail::-webkit-scrollbar { display: none; }
+.rail.drag { cursor: grabbing; scroll-snap-type: none; }
+.rail.drag .rail-card { pointer-events: none; }
+.rail-card { position: relative; flex: 0 0 clamp(250px, 26vw, 340px); aspect-ratio: 3 / 4; border-radius: 22px; background-size: cover; background-position: center; background-color: #dfe6e8; overflow: hidden; scroll-snap-align: start; box-shadow: var(--shadow); transition: transform .35s var(--ease), box-shadow .35s; user-select: none; -webkit-user-drag: none; }
+.rail-card::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 45%, rgba(0, 24, 29, .85)); }
+.rail-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); }
+.rail-card.organic::after { background: linear-gradient(180deg, transparent 45%, rgba(8, 36, 22, .88)); }
+.rail-info { position: absolute; z-index: 2; left: 20px; right: 20px; bottom: 20px; color: #fff; }
+.rail-info small { display: block; font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--amber); font-weight: 700; margin-bottom: 4px; }
+.rail-info b { font-size: 1.3rem; line-height: 1.2; }
+.rail-bar { height: 4px; background: var(--line); border-radius: 4px; overflow: hidden; margin-top: 4px; }
+.rail-bar i { display: block; height: 100%; width: 20%; background: linear-gradient(90deg, var(--orange), var(--amber)); border-radius: 4px; transition: margin-left .1s linear; }
+
+/* ---------- Custom cursor (mouse only) ---------- */
+.cursor { position: fixed; left: 0; top: 0; z-index: 999; width: 34px; height: 34px; margin: -17px 0 0 -17px; border: 2px solid var(--orange); border-radius: 50%; pointer-events: none; opacity: 0; transition: width .25s var(--ease), height .25s var(--ease), margin .25s var(--ease), background .25s, opacity .3s; }
+.cursor.show { opacity: 1; }
+.cursor.big { width: 64px; height: 64px; margin: -32px 0 0 -32px; background: rgba(249, 115, 22, .16); }
+.cursor-dot { position: fixed; left: 0; top: 0; z-index: 999; width: 7px; height: 7px; margin: -3.5px 0 0 -3.5px; border-radius: 50%; background: var(--orange); pointer-events: none; opacity: 0; }
+.cursor-dot.show { opacity: 1; }
+
+/* ---------- Floating contact button + slide-over panel ---------- */
+.fab { position: fixed; right: 20px; bottom: 76px; z-index: 75; display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border: 0; border-radius: 999px; background: var(--orange); color: #fff; font-weight: 800; cursor: pointer; box-shadow: 0 10px 24px rgba(249, 115, 22, .45); transition: transform .25s var(--ease); }
+.fab:hover { transform: translateY(-3px) scale(1.04); }
+.cpanel-ov { position: fixed; inset: 0; z-index: 120; background: rgba(0, 24, 29, .55); opacity: 0; pointer-events: none; transition: opacity .3s; }
+.cpanel { position: fixed; top: 0; right: 0; bottom: 0; z-index: 121; width: min(420px, 100vw); background: #fff; padding: 34px 30px; transform: translateX(100%); transition: transform .45s var(--ease); display: flex; flex-direction: column; gap: 18px; box-shadow: -20px 0 50px rgba(0, 0, 0, .2); overflow-y: auto; }
+body.cp-open .cpanel { transform: none; }
+body.cp-open .cpanel-ov { opacity: 1; pointer-events: auto; }
+.cpanel h3 { font-size: 1.8rem; color: var(--teal); }
+.cpanel p { color: var(--muted); }
+.cpanel a.row { display: flex; align-items: center; gap: 14px; padding: 16px 18px; border-radius: 16px; background: var(--cream); font-weight: 700; color: var(--teal); transition: transform .25s var(--ease), background .25s; }
+.cpanel a.row:hover { transform: translateX(6px); background: var(--leaf-l); }
+.cpanel a.row span { font-size: 1.4rem; }
+.cpanel .cp-close { align-self: flex-end; width: 42px; height: 42px; border-radius: 50%; border: 0; background: var(--cream); font-size: 1.4rem; cursor: pointer; }
+@media (max-width: 820px) { .fab { display: none; } }
+
 /* ---------- Hide & show on scroll ---------- */
 .js .reveal { opacity: 0; transform: translateY(26px); transition: opacity .7s var(--ease), transform .7s var(--ease); transition-delay: var(--d, 0s); }
 .js .reveal[data-reveal="left"] { transform: translateX(-40px); }
