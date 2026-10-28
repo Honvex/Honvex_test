@@ -17,6 +17,7 @@
     initScrollUI();
     initSlider();
     initDots();
+    initMobileBar();
     initTabs();
     initTilt();
     initCatalog();
@@ -24,6 +25,18 @@
     initBuilder();
     initContactForm();
   });
+
+  /* ---------- Phone-only bottom bar: call, email, enquire ---------- */
+  function initMobileBar() {
+    if (!$("#contact")) return;
+    var bar = document.createElement("div");
+    bar.className = "mbar";
+    bar.innerHTML =
+      '<a href="tel:+916382653163"><span>📞</span>Call</a>' +
+      '<a href="mailto:info@honvexinternationals.com"><span>✉️</span>Email</a>' +
+      '<a href="#contact" class="main"><span>💬</span>Enquire</a>';
+    document.body.appendChild(bar);
+  }
 
   /* ---------- Side section dots: shows where you are on the page ---------- */
   function initDots() {
