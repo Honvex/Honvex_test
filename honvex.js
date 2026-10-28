@@ -15,6 +15,8 @@
   document.addEventListener("DOMContentLoaded", function () {
     initNav();
     initScrollUI();
+    initReveal();
+    initWire();
     initSlider();
     initDots();
     initMobileBar();
@@ -218,23 +220,71 @@
 
   /* ---------- Reveal on scroll ---------- */
   function initReveal() {
+    // cards and feature blocks fade in too, even where the HTML doesn't mark them
+    $$(".card, .feature, .strip-item").forEach(function (el) { el.classList.add("reveal"); });
     var items = $$(".reveal");
-    if (!items.length) return;
+    var icons = $$(".ico, .strip-item > span");
     if (!("IntersectionObserver" in window)) {
-      items.forEach(function (el) { el.classList.add("in"); });
+      items.forEach(function (el) { el.classList.add("in", "done"); });
       return;
     }
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
-        if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
+        if (!en.isIntersecting) return;
+        var el = en.target;
+        io.unobserve(el);
+        el.classList.add("in");
+        setTimeout(function () { el.classList.add("done"); }, 1200);
       });
-    }, { threshold: 0.12 });
-    items.forEach(function (el, i) {
-      // light stagger for siblings inside the same grid
+    }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+    items.forEach(function (el) {
+      // light stagger for siblings inside the same row or grid
       var idx = el.parentElement ? Array.prototype.indexOf.call(el.parentElement.children, el) : 0;
-      el.style.setProperty("--d", Math.min(idx, 5) * 0.08 + "s");
+      el.style.setProperty("--d", Math.min(idx, 4) * 0.08 + "s");
       io.observe(el);
     });
+
+    // icons hop once when they scroll into view
+    var hopper = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        hopper.unobserve(en.target);
+        setTimeout(function () { en.target.classList.add("hop"); }, 250);
+      });
+    }, { threshold: 0.6 });
+    icons.forEach(function (el) { hopper.observe(el); });
+  }
+
+  /* ---------- Wire timeline: an icon travels down the wire as you scroll ---------- */
+  function initWire() {
+    var box = $(".steps");
+    if (!box) return;
+    var steps = $$(".step", box);
+    var wire = document.createElement("div");
+    wire.className = "wire";
+    wire.innerHTML = '<i class="wire-fill"></i>';
+    var icon = document.createElement("div");
+    icon.className = "wire-icon";
+    icon.setAttribute("aria-hidden", "true");
+    icon.innerHTML = "<span>🚚</span>";
+    box.appendChild(wire);
+    box.appendChild(icon);
+    var fill = $(".wire-fill", wire);
+
+    var ticking = false;
+    function update() {
+      ticking = false;
+      var r = box.getBoundingClientRect();
+      var y = Math.min(r.height, Math.max(0, window.innerHeight * 0.55 - r.top));
+      fill.style.height = y + "px";
+      icon.style.top = y + "px";
+      steps.forEach(function (s) { s.classList.toggle("lit", s.offsetTop + 40 <= y); });
+    }
+    window.addEventListener("scroll", function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    }, { passive: true });
+    window.addEventListener("resize", update);
+    update();
   }
 
   /* ---------- Hero slider ---------- */
