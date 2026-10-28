@@ -16,6 +16,7 @@
     initNav();
     initScrollUI();
     initSlider();
+    initDots();
     initTabs();
     initTilt();
     initCatalog();
@@ -23,6 +24,43 @@
     initBuilder();
     initContactForm();
   });
+
+  /* ---------- Side section dots: shows where you are on the page ---------- */
+  function initDots() {
+    var targets = $$("[data-dot]").filter(function (t) { return t.id; });
+    if (targets.length < 2) return;
+    var nav = document.createElement("nav");
+    nav.className = "dots";
+    nav.setAttribute("aria-label", "Page sections");
+    var links = targets.map(function (t) {
+      var a = document.createElement("a");
+      a.href = "#" + t.id;
+      var label = document.createElement("span");
+      label.textContent = t.dataset.dot;
+      a.appendChild(label);
+      nav.appendChild(a);
+      return a;
+    });
+    document.body.appendChild(nav);
+
+    var ticking = false;
+    function update() {
+      ticking = false;
+      var line = window.scrollY + window.innerHeight * 0.4;
+      var atEnd = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4;
+      var cur = atEnd ? targets.length - 1 : 0;
+      if (!atEnd) targets.forEach(function (t, i) { if (t.getBoundingClientRect().top + window.scrollY <= line) cur = i; });
+      links.forEach(function (a, i) {
+        a.classList.toggle("active", i === cur);
+        if (i === cur) a.setAttribute("aria-current", "true"); else a.removeAttribute("aria-current");
+      });
+    }
+    window.addEventListener("scroll", function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    }, { passive: true });
+    window.addEventListener("resize", update);
+    update();
+  }
 
   /* ---------- Organics: bulk enquiry builder ---------- */
   function initBuilder() {
