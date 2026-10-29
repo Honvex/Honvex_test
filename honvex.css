@@ -451,3 +451,7 @@ html, body { overflow-x: clip; }
 @media (max-width: 820px) {
   .js .reveal[data-reveal="left"]:not(.in), .js .reveal[data-reveal="right"]:not(.in) { transform: translateY(26px); }
 }
+
+/* original SVG icons in the trust strip */
+.strip-item span { display: inline-grid; place-items: center; }
+.strip-item img { display: block; width: 30px; height: 30px; }
